@@ -1,0 +1,114 @@
+<div class="h-100">
+  <div class="row h-100 no-gutters">
+    <div class="h-100 d-md-flex d-sm-block bg-white justify-content-center align-items-center col-md-12 col-lg-7">
+      <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
+        <div class="app-logo"></div>
+        <h4>
+          <div>Bienvenido,</div>
+          <span>Aquí puedes<span class="text-success"> crear</span> tu cuenta</span>
+        </h4>
+        <div>
+          <form (ngSubmit)="createUser()" [formGroup]="forma">
+            <div class="row">
+              <div class="col-md-6">
+                <fieldset class="form-group" id="__BVID__132">
+                  <div tabindex="-1" role="group"><label for="exampleEmail">
+                    <span class="text-danger">*</span>Email</label>
+                    <input class="form-control"
+                    id="exampleEmail"
+                    name="email"
+                    type="email"
+                    formControlName="email"
+                    [class.is-invalid]="emailNoValido"
+                    placeholder="Email aquí...">
+                    </div>
+                    <span *ngIf="emailNoValido"
+                  class="text-danger animated fadeIn">El email es obligatorio</span>
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <fieldset class="form-group" id="__BVID__134">
+                  <div tabindex="-1" role="group">
+                    <label for="exampleName">Nombre</label>
+                    <input class="form-control"
+                    name="nombre"
+                    type="text"
+                    formControlName="nombre"
+                    [class.is-invalid]="nombreNoValido"
+                    placeholder="Nombre aquí...">
+                  </div>
+                  <span *ngIf="nombreNoValido"
+                  class="text-danger animated fadeIn">El nombre es obligatorio</span>
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <fieldset class="form-group" id="__BVID__136">
+                  <div tabindex="-1" role="group"><label for="examplePassword">
+                    <span class="text-danger">*</span>Contraseña
+                    </label>
+                    <input class="form-control"
+                    name="password"
+                    type="password"
+                    formControlName="password"
+                    [class.is-invalid]="pass1Novalido"
+                    placeholder="Contraseña aquí...">
+                    </div>
+                    <span *ngIf="pass1Novalido"
+                  class="text-danger animated fadeIn">Digite la contraseña</span>
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <fieldset class="form-group" id="__BVID__138">
+                  <div tabindex="-1" role="group">
+                    <label for="examplePasswordRep"><span class="text-danger">*</span>Repite Contraseña
+                    </label>
+                    <input class="form-control"
+                      name="password2"
+                      type="password"
+                      formControlName="password2"
+                      [class.is-invalid]="passw2NoValido"
+                      placeholder="Repite contraseña aquí...">
+                    </div>
+                    <span *ngIf="passw2NoValido"
+                  class="text-danger animated fadeIn">Las contraseñas deben ser iguales</span>
+                </fieldset>
+              </div>
+            </div>
+            <!--<div class="custom-control custom-checkbox"><input id="exampleCheck" type="checkbox" name="check"
+                autocomplete="off" class="custom-control-input" value="true"><label for="exampleCheck"
+                class="custom-control-label">
+                Accept our <a [routerLink]="">Terms and Conditions</a>.
+              </label>
+            </div>-->
+            <div class="mt-4 d-flex align-items-center">
+              <h5 class="mb-0">
+                <a [routerLink]="['/pages/login']" class="text-primary">Ir al Login</a></h5>
+              <div class="ml-auto">
+                <button type="submit"
+                  class="btn btn-wide btn-pill btn-shadow btn-hover-shine btn-secondary btn-lg">Crear Cuenta
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="d-lg-flex d-xs-none col-lg-5">
+      <div class="slider-light">
+        <ngx-slick-carousel class="slick-slider slick-dotted" #slickModal="slick-carousel" [config]="slideConfig2">
+          <div ngxSlickItem>
+            <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-plum-plate">
+              <div class="slider-content text-light">
+                <h3>Perfect Balance</h3>
+                <p>
+                  ArchitectUI is like a dream. Some think it's too good to be true! Extensive collection of
+                  unified Vue Bootstrap Components and Elements.
+                </p>
+              </div>
+            </div>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+  </div>
+</div>

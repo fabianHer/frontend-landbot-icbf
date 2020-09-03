@@ -1,0 +1,124 @@
+<div class="h-100">
+  <div class="row h-100 no-gutters">
+    <div class="d-none d-lg-block col-lg-4">
+      <div class="slider-light">
+        <ngx-slick-carousel class="slick-slider slick-dotted" #slickModal="slick-carousel" [config]="slideConfig2">
+          <div ngxSlickItem>
+            <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-plum-plate">
+              <div class="slide-img-bg"></div>
+              <div class="slider-content text-light">
+                <h3>Perfect Balance</h3>
+                <p>
+                  ArchitectUI is like a dream. Some think it's too good to be true! Extensive collection of
+                  unified Vue Bootstrap Components and Elements.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div ngxSlickItem>
+            <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-premium-dark">
+              <div class="slide-img-bg"></div>
+              <div class="slider-content text-light">
+                <h3>Scalable, Modular, Consistent</h3>
+                <p>
+                  Easily exclude the components you don't require. Lightweight, consistent
+                  Bootstrap based styles across all elements and components
+                </p>
+              </div>
+            </div>
+          </div>
+          <div ngxSlickItem>
+            <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-sunny-morning">
+              <div class="slide-img-bg opacity-6"></div>
+              <div class="slider-content text-light">
+                <h3>Complex, but lightweight</h3>
+                <p>
+                  We've included a lot of components that cover almost all use cases for
+                  any type of application.
+                </p>
+              </div>
+            </div>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+    <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
+      <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
+        <div class="app-logo"></div>
+        <h4 class="mb-0">
+          <div>Bienvenido,</div>
+          <span>Por favor ingresa con tu cuenta.</span>
+        </h4>
+        <h6 class="mt-3">
+          No Tienes cuenta?
+          <a [routerLink]="['/pages/register']" class="text-primary">Crear Cuenta</a></h6>
+        <div class="divider"></div>
+        <div>
+          <form (ngSubmit)="ingresar(f)" #f="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <fieldset class="form-group">
+                  <div tabindex="-1" role="group"><label for="exampleEmail">Usuario</label>
+                    <input
+                    id="exampleEmail"
+                    name="email"
+                    type="email"
+                    class="form-control is-invalid"
+                    [class.is-invalid]="email.invalid && email.touched"
+                    [ngModel]="usuario.email"
+                    #email="ngModel"
+                    placeholder="Usuario aquí..."
+                    required>
+                  </div>
+                  <span *ngIf="email.invalid && email.touched"
+                  class="text-danger animated fadeIn">El usuario es obligatorio</span>
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <fieldset class="form-group">
+                  <div tabindex="-1" role="group"><label for="examplePassword">Contraseña</label>
+                    <input
+                      id="examplePassword"
+                      name="password"
+                      type="password"
+                      class="form-control is-invalid"
+                      [class.is-invalid]="password.invalid && password.touched"
+                      [ngModel]="usuario.password"
+                      #password="ngModel"
+                      placeholder="Contraseña aquí..."
+                      required>
+                    </div>
+                    <span *ngIf="password.invalid && password.touched"
+                    class="text-danger animated fadeIn">Debe ingresar la contraseña</span>
+                </fieldset>
+              </div>
+            </div>
+            <!--<div class="custom-control custom-checkbox"><input id="exampleCheck" type="checkbox" name="check"
+                autocomplete="off" class="custom-control-input" value="true"><label for="exampleCheck"
+                class="custom-control-label">
+                Keep me logged in
+              </label>
+            </div>-->
+            <re-captcha (resolved)="resolved($event)"
+                        name="captcha"
+                        [ngModel]="usuario.captcha"
+                        [class.is-invalid]="captcha.invalid && captcha.touched"
+                        #captcha="ngModel"
+                        required
+                        siteKey="{{environment}}">
+            </re-captcha>
+            <span *ngIf="captcha.invalid && captcha.touched"
+                    class="text-danger animated fadeIn">Debe usar el Captcha</span>
+            <div class="divider"></div>
+            <div class="d-flex align-items-center">
+              <div class="ml-auto">
+                <a [routerLink]="['/dashboards/analytics']" class="btn-lg btn btn-link">Recordar Contraseña</a>
+                <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
