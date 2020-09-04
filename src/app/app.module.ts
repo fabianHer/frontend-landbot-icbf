@@ -162,6 +162,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     // Tables
     NgbdSortableHeaderDirective,
 
+
   ],
   imports: [
     MatTableModule,

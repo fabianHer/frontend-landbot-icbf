@@ -3,10 +3,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 import { ReportesService } from '../../../../services/reportes.service';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
+
+import {MatDialog} from '@angular/material/dialog';
 
 
 const moment = _moment;
@@ -24,12 +28,12 @@ export const MY_FORMATS = {
 
 export interface UserData {
   cantidad: string;
+  nombre: string;
+  correo: string;
   cliente: string;
   celular: string;
   telefono: string;
   extension: string;
-  nombre: string;
-  correo: string;
 }
 /** Constants used to fill up our data base. */
 /*const COLORS: string[] = [
@@ -43,7 +47,7 @@ const NAMES: string[] = [
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styles: ['mat-form-field { margin-right: 12px;} table { width: 100%; } .mat-form-field { font-size: 14px; width: 100%;} td, th { width: 25%;}'
+  styles: ['mat-form-field { margin-right: 12px;} table { width: 100%; } .mat-form-field { font-size: 14px; width: 100%;} td, th { width: 10%;}'
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
@@ -65,18 +69,17 @@ export class TableComponent implements OnInit {
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
 
-  displayedColumns: string[] = ['cantidad', 'cliente', 'celular', 'extension', 'telefono', 'nombre', 'correo'];
+  displayedColumns: string[] = ['cantidad', 'nombre', 'correo', 'cliente', 'celular', 'extension', 'telefono'];
   dataSource: MatTableDataSource<UserData>;
-  columnas = [
+  columnas: any = [
     { titulo: 'Cantidad', name: 'cantidad' },
-    { titulo: 'Cliente', name: 'cliente' },
-    { titulo: 'Celular', name: 'celular' },
-    { titulo: 'Extension', name: 'extension' },
-    { titulo: 'Telefono', name: 'telefono' },
     { titulo: 'Nombre', name: 'nombre' },
     { titulo: 'Correo', name: 'correo' },
-
-  ]
+    { titulo: 'Cliente', name: 'cliente' },
+    { titulo: 'Celular', name: 'celular' },
+    { titulo: 'Extensión', name: 'extension'},
+    { titulo: 'Teléfono', name: 'telefono' }
+  ];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -85,12 +88,7 @@ export class TableComponent implements OnInit {
   subheading = 'This component provides a Material Design styled data-table that can be used to display rows of data.';
   icon = 'pe-7s-light icon-gradient bg-malibu-beach';
 
-  constructor( private reportes: ReportesService, private adapter: DateAdapter<any>) {
-    // Create 100 users
-    // const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-
-    // Assign the data to the data source for the table to render
-    // this.dataSource = new MatTableDataSource(users);
+  constructor( public dialog: MatDialog, private reportes: ReportesService, private adapter: DateAdapter<any>, private route: Router) {
   }
   french() {
     this.adapter.setLocale('fr');
@@ -102,7 +100,7 @@ export class TableComponent implements OnInit {
   reporteUsuario() {
     return this.reportes.consultarReporte().subscribe((respuesta) => {
     console.log(respuesta.landbotDB);
-    const data: any = [{
+    /*const data: any = [{
         cantidad: 1,
         telefono: '1234567',
         nombre: 'fabian',
@@ -119,12 +117,16 @@ export class TableComponent implements OnInit {
         telefono: '34467384',
         nombre: 'ferer',
         correo: 'fefer@gmail.com'
-    }];
+    }];*/
     this.dataSource = new MatTableDataSource(respuesta.landbotDB);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    });
+    }, (err) => {
+      if (err.status === 401) {
+        this.route.navigateByUrl('/pages/login');
+  }
+});
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -134,7 +136,12 @@ export class TableComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  openDialog() {
+
+
+  }
 }
+
 /** Builds and returns a new User. */
 /*function createNewUser(id: number): UserData {
   const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +

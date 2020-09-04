@@ -47,16 +47,18 @@ export class LoginComponent implements OnInit {
         text: 'Espere por Favor...'
       });
       Swal.showLoading();
-      this.userLogin.login( form.value ).subscribe(respuesta => {
+      this.userLogin.login( form.value ).subscribe( (respuesta: any) => {
       Swal.close();
       console.log(respuesta);
       localStorage.setItem('token', `Bearer ${respuesta.token}`);
       this.route.navigateByUrl('/material/table');
       }, (err) => {
-        Swal.fire({
-        icon: 'error',
-        title: 'Error de autenticación'
-    });
+        if (err.status == 401) {
+          Swal.fire({
+            icon: 'error',
+            title:  'Usuario o contraseña incorrectos',
+        });
+    }
   });
   }
   }
