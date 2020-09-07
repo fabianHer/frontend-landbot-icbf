@@ -46,6 +46,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ChartsModule } from 'ng2-charts';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 // ANGULAR MATERIAL COMPONENTS
 
@@ -222,7 +223,9 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
     MatCheckboxModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    ModalModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     {

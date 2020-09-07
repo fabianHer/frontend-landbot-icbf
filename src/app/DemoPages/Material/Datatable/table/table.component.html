@@ -18,7 +18,7 @@
       </mat-form-field>
     </div>
     <div class="col-md-3">
-      <button mat-raised-button color="primary">Consultar Registros</button>
+      <button mat-raised-button color="primary" (click)="french($event)">Consultar Registros</button>
     </div>
   </div>
 
@@ -38,7 +38,7 @@
     <!-- ID Column -->
     <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" style="text-align:center">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columna.titulo}}</th>
-    <td (click)="openDialog()" mat-cell *matCellDef="let row"> {{row[columna.name]}} </td>
+    <td  mat-cell *matCellDef="let row" (click)="openModalRetiro(templateRetiro, row)"> {{row[columna.name]}} </td>
     </ng-container>
 
 
@@ -53,3 +53,38 @@
 
 
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+<ng-template #templateRetiro>
+  <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Registros</h5>
+      <button type="button" class="close pull-right" arial-label="Close" (click)="closeRetiro()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="table-responsive-sm table-dark">
+    <table class="table">
+      <thead>
+          <tr>
+              <th cope="col">#</th>
+              <td scope="col">Cliente</td>
+              <td scope="col" style="width:10px;">Fecha Chat</td>
+              <td scope="col">Fecha Mensaje</td>
+              <td scope="col">Correo</td>
+              <td scope="col">Nombre</td>
+          </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let entry of registros; let i=index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{entry.cliente}}</td>
+              <td>{{entry.fechaChat | date: 'yyyy/MM/dd h:mm a'}}</td>
+              <td>{{entry.fechaMsg | date: 'yyyy/MM/dd h:mm a'}}</td>
+              <td>{{entry.correo}}</td>
+              <td>{{entry.nombre}}</td>
+          </tr>
+      </tbody>
+  </table>
+  </div>
+  </div>
+</ng-template>

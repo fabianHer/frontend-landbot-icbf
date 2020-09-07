@@ -39,4 +39,5 @@ export class LoginService {
     return this.httpClient.post<any>(`${environment.apiUrl}/auth/sign-up`, data, {headers})
     .pipe(map((respuesta: any) => respuesta ));
   }
+
 }

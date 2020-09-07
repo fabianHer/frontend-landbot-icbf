@@ -15,7 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatDialogModule} from '@angular/material/dialog';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 
@@ -37,7 +37,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    ModalModule,
+    ModalModule.forRoot()
   ],
   declarations: [TableComponent],
   entryComponents: []

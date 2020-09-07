@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +11,8 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import * as _moment from 'moment';
 
 import {MatDialog} from '@angular/material/dialog';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { format } from 'date-fns';
 
 
 const moment = _moment;
@@ -35,15 +37,6 @@ export interface UserData {
   telefono: string;
   extension: string;
 }
-/** Constants used to fill up our data base. */
-/*const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];*/
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -66,8 +59,10 @@ const NAMES: string[] = [
 
 export class TableComponent implements OnInit {
 
+  registros: any = [];
+  modalRef: BsModalRef;
   date = new FormControl(new Date());
-  serializedDate = new FormControl((new Date()).toISOString());
+  serializedDate = new FormControl(new Date());
 
   displayedColumns: string[] = ['cantidad', 'nombre', 'correo', 'cliente', 'celular', 'extension', 'telefono'];
   dataSource: MatTableDataSource<UserData>;
@@ -88,9 +83,12 @@ export class TableComponent implements OnInit {
   subheading = 'This component provides a Material Design styled data-table that can be used to display rows of data.';
   icon = 'pe-7s-light icon-gradient bg-malibu-beach';
 
-  constructor( public dialog: MatDialog, private reportes: ReportesService, private adapter: DateAdapter<any>, private route: Router) {
+  constructor( private modalService: BsModalService, public dialog: MatDialog, private reportes: ReportesService, private adapter: DateAdapter<any>, private route: Router) {
   }
-  french() {
+  french(event: any) {
+    console.log(this.serializedDate.value);
+    console.log(this.date.value);
+
     this.adapter.setLocale('fr');
   }
   ngOnInit() {
@@ -99,25 +97,6 @@ export class TableComponent implements OnInit {
   }
   reporteUsuario() {
     return this.reportes.consultarReporte().subscribe((respuesta) => {
-    console.log(respuesta.landbotDB);
-    /*const data: any = [{
-        cantidad: 1,
-        telefono: '1234567',
-        nombre: 'fabian',
-        correo: 'fabian@gmail.com'
-      },
-      {
-          cantidad: 2,
-          telefono: '90467384',
-          nombre: 'yilber',
-          correo: 'yilber@gmail.com'
-      },
-      {
-        cantidad: 3,
-        telefono: '34467384',
-        nombre: 'ferer',
-        correo: 'fefer@gmail.com'
-    }];*/
     this.dataSource = new MatTableDataSource(respuesta.landbotDB);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -136,22 +115,25 @@ export class TableComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  openDialog() {
 
+  openModalRetiro(templateRetiro: TemplateRef<any>, cuenta: any ) {
+    this.traerRegistrosUsuario(cuenta);
+    this.modalRef = this.modalService.show(templateRetiro);
+    this.modalRef.setClass('modal-xl');
+  }
+  traerRegistrosUsuario(cuenta) {
+    const fecha1 = format(new Date(this.date.value), 'yyy-MM-dd HH:mm:ss');
+    const fecha2 = moment(this.serializedDate.value).format('YYYY-MM-DD HH:mm:ss');
+    console.log(fecha1);
+    console.log(fecha2);
 
+    this.reportes.registrosUsuario(cuenta.correo, fecha1, fecha2).subscribe(respuesta => {
+      this.registros = respuesta.detalleLandBotDB;
+    });
+  }
+  closeRetiro(): void {
+    this.modalRef.hide();
   }
 }
 
-/** Builds and returns a new User. */
-/*function createNewUser(id: number): UserData {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
-}*/
 
